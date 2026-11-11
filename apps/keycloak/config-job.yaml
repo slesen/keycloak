@@ -1,0 +1,48 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: keycloak-config-cli
+  namespace: default
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation,HookSucceeded
+spec:
+  backoffLimit: 2
+  activeDeadlineSeconds: 600
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: keycloak-config-cli
+          image: adorsys/keycloak-config-cli:6.5.1
+          env:
+            - name: KEYCLOAK_URL
+              value: "http://keycloak:8080"
+            - name: KEYCLOAK_LOGINREALM
+              value: "master"
+            - name: KEYCLOAK_AVAILABILITYCHECK_ENABLED
+              value: "true"
+            - name: KEYCLOAK_AVAILABILITYCHECK_TIMEOUT
+              value: "180s"
+            - name: IMPORT_FILES_LOCATIONS
+              value: "file:/config/*"
+            - name: IMPORT_CACHE_ENABLED
+              value: "false"
+            - name: KEYCLOAK_USER
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-admin
+                  key: username
+            - name: KEYCLOAK_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-admin
+                  key: password
+          volumeMounts:
+            - name: realm-config
+              mountPath: /config
+              readOnly: true
+      volumes:
+        - name: realm-config
+          configMap:
+            name: tjo-realm-config

@@ -1,0 +1,29 @@
+realm: tjo
+enabled: true
+displayName: TJO
+registrationAllowed: false
+loginWithEmailAllowed: true
+duplicateEmailsAllowed: false
+resetPasswordAllowed: true
+editUsernameAllowed: false
+
+roles:
+  realm:
+    - name: user
+      description: Standard user role
+
+clients:
+  - clientId: tjo-app
+    name: TJO Application
+    enabled: true
+    protocol: openid-connect
+    publicClient: true
+    standardFlowEnabled: true
+    directAccessGrantsEnabled: false
+    redirectUris:
+      - "http://localhost:3000/*"
+    webOrigins:
+      - "http://localhost:3000"
+    defaultClientScopes:
+      - profile
+      - email
