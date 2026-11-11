@@ -27,3 +27,15 @@ clients:
     defaultClientScopes:
       - profile
       - email
+groups:
+  - name: tjo-users
+    path: /tjo-users
+
+users:
+  - username: tjo-test
+    enabled: true
+    groups:
+      - tjo-users
+    requiredActions:
+      - UPDATE_PASSWORD
+
