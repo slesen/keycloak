@@ -33,3 +33,6 @@ data:
 kind: ConfigMap
 metadata:
   name: tjo-realm-config
+  annotations:
+    gitops-version: "2"
+
