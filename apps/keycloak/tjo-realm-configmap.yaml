@@ -14,6 +14,10 @@ data:
       realm:
         - name: user
           description: Standard user role
+        - name: tjo-user
+          description: TJO standard user
+        - name: tjo-admin
+          description: TJO administrator
 
     clients:
       - clientId: tjo-app
@@ -30,9 +34,17 @@ data:
         defaultClientScopes:
           - profile
           - email
+
     groups:
       - name: tjo-users
         path: /tjo-users
+        realmRoles:
+          - tjo-user
+
+      - name: tjo-admins
+        path: /tjo-admins
+        realmRoles:
+          - tjo-admin
 
     users:
       - username: tjo-test
