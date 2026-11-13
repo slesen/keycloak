@@ -52,7 +52,7 @@ spec:
             - name: KC_HTTP_ENABLED
               value: "true"
             - name: KC_HOSTNAME
-              value: "http://keycloak.192.168.49.2.nip.io"
+              value: "https://keycloak.192.168.49.2.nip.io"
             - name: KC_PROXY_HEADERS
               value: xforwarded
             - name: KC_HEALTH_ENABLED
@@ -100,6 +100,10 @@ metadata:
   name: keycloak
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+        - keycloak.192.168.49.2.nip.io
+      secretName: keycloak-tls
   rules:
     - host: keycloak.192.168.49.2.nip.io
       http:
